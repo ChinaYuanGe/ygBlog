@@ -1,0 +1,25 @@
+﻿@page
+@model ygBlog.Pages.UserErrorModel
+@{
+    int code = -1;
+    if (ViewData["code"] != null) {
+        int.TryParse(ViewData["code"].ToString(), out code);
+    }
+    string GetSepicalCodeInfo(int code)
+    {
+        switch (code)
+        {
+            case 404:
+                return "迷途的羔羊啊,您在寻找什么?";
+            case 500:
+                return "发生了异常.";
+            default:
+                return "未定义的错误.";
+        }
+    }
+}
+
+<div class="col-sm-12">
+    <h1 style="text-align: center">@GetSepicalCodeInfo(code)</h1>
+    <h3 style="text-align: center">@code - @(((System.Net.HttpStatusCode)code).ToString())</h3>
+</div>

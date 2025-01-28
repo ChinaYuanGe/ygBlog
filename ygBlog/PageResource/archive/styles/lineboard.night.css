@@ -1,0 +1,10 @@
+.lineboard{
+    background-color:#343a40;
+}
+.lineboard::after{
+    background-color:white !important;
+}
+.lineboard .lb-content{
+    background-color:#444 !important;
+    color:white !important;
+}

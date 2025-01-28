@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="working\**" />
+    <Content Remove="working\**" />
+	  <Content Update="wwwroot\**">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	  </Content>
+	  <Content Include="PageResource\**">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	  </Content>
+    <EmbeddedResource Remove="working\**" />
+    <None Remove="working\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="PageResource\archive\styles\lineboard.css" />
+    <None Remove="PageResource\archive\styles\lineboard.night.css" />
+    <None Remove="PageResource\commentmgr\scripts\comments.js" />
+    <None Remove="PageResource\commentmgr\scripts\UI_comments.js" />
+    <None Remove="PageResource\commentmgr\styles\global.night.css" />
+    <None Remove="PageResource\edit\head_append.html" />
+    <None Remove="PageResource\edit\scripts\antilive.js" />
+    <None Remove="PageResource\edit\scripts\artfunctions.js" />
+    <None Remove="PageResource\edit\scripts\global.js" />
+    <None Remove="PageResource\edit\scripts\group.js" />
+    <None Remove="PageResource\edit\scripts\mce.js" />
+    <None Remove="PageResource\edit\scripts\release.js" />
+    <None Remove="PageResource\edit\scripts\serverimgs.js" />
+    <None Remove="PageResource\edit\scripts\tagInsert.js" />
+    <None Remove="PageResource\edit\styles\global.css" />
+    <None Remove="PageResource\edit\styles\global.night.css" />
+    <None Remove="PageResource\edit\styles\tag.css" />
+    <None Remove="PageResource\login\scripts\method.js" />
+    <None Remove="PageResource\login\styles\global.night.css" />
+    <None Remove="PageResource\index\scripts\auto.js" />
+    <None Remove="PageResource\index\scripts\search.js" />
+    <None Remove="PageResource\index\styles\global.css" />
+    <None Remove="PageResource\index\styles\groupLister.css" />
+    <None Remove="PageResource\index\styles\tagLister.css" />
+    <None Remove="PageResource\postmgr\scripts\creation.js" />
+    <None Remove="PageResource\postmgr\scripts\group.js" />
+    <None Remove="PageResource\postmgr\styles\master.css" />
+    <None Remove="PageResource\postmgr\styles\master.night.css" />
+    <None Remove="PageResource\read\head_append.html" />
+    <None Remove="PageResource\read\scripts\comments.js" />
+    <None Remove="PageResource\read\scripts\loadout.js" />
+    <None Remove="PageResource\read\scripts\operactor.js" />
+    <None Remove="PageResource\read\scripts\UI_comments.js" />
+    <None Remove="PageResource\read\styles\comments.css" />
+    <None Remove="PageResource\read\styles\comments.night.css" />
+    <None Remove="PageResource\read\styles\global.css" />
+    <None Remove="PageResource\login\head_append.html" />
+    <None Remove="PageResource\archive\head_append.html" />
+    <None Remove="PageResource\commentmgr\head_append.html" />
+    <None Remove="PageResource\settings\scripts\init.js" />
+    <None Remove="PageResource\template - 复制\head_append.html" />
+    <None Remove="PageResource\template - 复制\scripts\JavaScript.js" />
+    <None Remove="PageResource\template - 复制\styles\StyleSheet.css" />
+    <None Remove="PageResource\template - 复制\styles\StyleSheet.night.css" />
+    <None Remove="PageResource\template\head_append.html" />
+    <None Remove="PageResource\template\scripts\JavaScript.js" />
+    <None Remove="PageResource\template\styles\StyleSheet.css" />
+    <None Remove="PageResource\template\styles\StyleSheet.night.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.9.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.12" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
+    <PackageReference Include="SQLitePCLRaw.core" Version="2.1.10" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.10" />
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.10" />
+    <PackageReference Include="System.Memory" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PageResource\archive\scripts\" />
+  </ItemGroup>
+
+</Project>

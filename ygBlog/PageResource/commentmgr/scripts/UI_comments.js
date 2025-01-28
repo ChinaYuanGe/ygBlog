@@ -1,0 +1,3 @@
+$(function () {
+    ReloadComment(0);
+})

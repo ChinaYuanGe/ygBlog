@@ -1,0 +1,158 @@
+﻿@{
+    // Page defintions.
+    (string To, string Display, bool RequireLogin, bool hideAfterLogin)[] Nav = {
+        ("/","主页",false,false),
+        ("/archive","归档",false,false),
+        ("/login","神秘入口",false,true),
+        ("/postmgr","编写",true,false),
+        ("/commentmgr","评论审核",true,false),
+        ("/settings","系统设置",true,false),
+        ("/logoff","登出",true,false)
+    };
+    bool Logined = this.Context.User.Identity.IsAuthenticated;
+    ViewData["logined"] = Logined;
+
+    bool Night = (bool)ViewData["nighted"];
+
+    string page = this.Context.Request.Path.ToString().Remove(0, 1).Split('/')[0];
+
+    if (this.Context.Request.Path.ToString() == "/") page = "index";
+    ViewData["gPage"] = page;
+
+    //Look for page's sepically script and style.
+    string pageResourcePath = System.IO.Path.Combine(FileDir.PageResource, page);
+    if (Directory.Exists(pageResourcePath))
+    {
+        string stylePath = System.IO.Path.Combine(pageResourcePath, "styles");
+        if (Directory.Exists(stylePath))
+        {
+            List<string> ret = new List<string>();
+            foreach (var s in Directory.GetFiles(stylePath))
+            {
+                if (s.EndsWith(".night.css"))
+                {
+                    if(Night) ret.Add(System.IO.Path.GetFileName(s));
+                }
+                else
+                {
+                    ret.Add(System.IO.Path.GetFileName(s));
+                }
+            }
+            ViewData["pStyle"] = ret.ToArray();
+        }
+        string scriptPath = System.IO.Path.Combine(pageResourcePath, "scripts");
+        if (Directory.Exists(scriptPath))
+        {
+            List<string> ret = new List<string>();
+            foreach (var s in Directory.GetFiles(scriptPath))
+            {
+                ret.Add(System.IO.Path.GetFileName(s));
+            }
+            ViewData["pScript"] = ret.ToArray();
+        }
+        string headAppendPath = System.IO.Path.Combine(pageResourcePath, "head_append.html");
+        if (File.Exists(headAppendPath))
+        {
+            ViewData["hAppend"] = File.ReadAllText(headAppendPath);
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Settings.Global.Title.Value</title>
+    
+    <script>window.isNight = @(Night ? "true" : "false");</script>
+
+    <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/jquery.cookie-1.4.1.min.js" asp-append-version="true"></script>
+    <script src="~/lib/popper/popper.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstarp/bootstrap.min.js" asp-append-version="true"></script>
+
+    @if (ViewData["hAppend"] != null)
+    {
+        @Html.Raw(ViewData["hAppend"].ToString());
+    }
+
+    <script src="~/js/globalMethod.js" asp-append-version="true"></script>
+    <script src="~/js/base64.js" asp-append-version="true"></script>
+    <script src="~/js/fastAjax.js" asp-append-version="true"></script>
+    <script src="~/js/fastbase64.js" asp-append-version="true"></script>
+    <script src="~/js/md5.min.js" asp-append-version="true"></script>
+    @if (ViewData["pScript"] != null)
+    {
+        @foreach (string str in (string[])ViewData["pScript"])
+        {
+            <script src="~/pageres/@(page)/scripts/@str"></script>
+        }
+    }
+
+    <link rel="stylesheet" href="~/css/bootstarp/bootstrap-grid.min.css" />
+    <link rel="stylesheet" href="~/css/bootstarp/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/basic.css" />
+
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/ygBlog.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/custom/artView.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="/css/custom/artAnimation.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="/css/custom/artControl.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="/css/custom/comp.css" asp-append-version="true" />
+
+    @if (Night)
+    {
+        <link rel="stylesheet" href="/css/night.css" asp-append-version="true" />
+        <link rel="stylesheet" href="/css/custom/artView.night.css" asp-append-version="true" />
+        <link rel="stylesheet" href="/css/custom/artControl.night.css" asp-append-version="true" />
+    }
+
+    @if (ViewData["pStyle"] != null)
+    {
+        @foreach (string str in (string[])ViewData["pStyle"])
+        {
+            <link rel="stylesheet" href="~/pageres/@(page)/styles/@str" />
+        }
+    }
+</head>
+<body>
+    <header>
+        <nav id="GuideHolder" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div id="GuiderContainer" class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/">@Settings.Global.Title.Value</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_main" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbar_main" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @foreach (var n in Nav)
+                        {
+                            @if (n.RequireLogin ? Logined : (n.hideAfterLogin ? (Logined ? false : true) : true))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="@n.To">@n.Display</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div id="main_container" class="container">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            @Html.Raw(Settings.Global.FooterAppend.Value)
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

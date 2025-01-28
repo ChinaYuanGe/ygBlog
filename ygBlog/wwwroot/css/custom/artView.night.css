@@ -1,0 +1,19 @@
+.mce-content-body{
+    color:white;
+}
+.mce-content-body p{
+    margin:.2em 0;
+}
+.mce-content-body h2{
+    margin: .6em 0;
+}
+.mce-content-body h3{
+    margin: .4em 0;
+}
+.mce-content-body img{
+    width:80%;
+}
+body{
+    color:white;
+    background-color:#343a40 ;
+}

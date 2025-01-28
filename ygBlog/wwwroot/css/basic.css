@@ -1,0 +1,31 @@
+#GuiderHolder {
+    border-bottom: 1px solid #aaa;
+    margin-bottom: 1em;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#GuiderContainer {
+    background-color: white;
+}
+
+#contentContainer {
+    margin-top: 5em;
+}
+
+body {
+    margin-bottom: 2em;
+}
+
+.night h1,
+.night h2,
+.night h3,
+.night h4,
+.night h5,
+.night a,
+.night p {
+    color: #444 !important;
+}

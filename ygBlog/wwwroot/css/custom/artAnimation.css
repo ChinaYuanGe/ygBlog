@@ -1,0 +1,10 @@
+.art_cardview:hover{
+    transform: translateX(-8px) translateY(-8px);
+    box-shadow: 8px 8px 0px 0 #666;
+    transform-origin: center center;
+    transition: transform .2s, box-shadow .2s;
+}
+.art_cardview{
+    transition: transform .2s,box-shadow .2s;
+    transform-origin: center center;
+}

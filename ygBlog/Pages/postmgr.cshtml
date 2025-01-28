@@ -1,0 +1,52 @@
+﻿@page
+@using Models
+@using Tools
+@using Managment
+@model ygBlog.Pages.artmgrModel
+@{
+    var Posts = (PostData[])ViewData["drafts"];
+}
+<div class="row">
+    <div class="col-sm-4 mb-3">
+        <button class="btn btn-block btn-success mb-3" onclick="createArtDraft()">(+) 新建草稿</button>
+        <div class="card_sp mb-3">
+            <h4>总览</h4>
+            <p>文章:&nbsp;@ViewData["count_posts"]</p>
+            <p>草稿:&nbsp;@ViewData["count_drafts"]</p>
+        </div>
+        <div class="card_sp">
+            <h4>分组</h4>
+            <table id="groups">
+                <tbody>
+                    @foreach ((long, string, long) v in ((long, string, long)[])ViewData["groups"])
+                    {
+                        <tr><td><span class="badge badge-primary">@v.Item3</span>&nbsp;@v.Item2</td><td><button class="btn btn-block btn-danger btn-sm" onclick="deleteGroup(@v.Item1)">删除</button></td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-8 mb-3">
+        @foreach (PostData p in Posts)
+        {
+            <a style="text-decoration:none" href="/edit/@p.Id">
+                <div class="card art_cardview">
+                    <img src="@Urls.PostImagePath/@p.Images.TitleImage" class="card-img-top">
+                    <div class="tagContainer">
+                        @foreach (string t in p.Tags)
+                        {
+                            <div class="art_tag" style="background-color:#@Hasher.md5(t).Substring(0,6);color:#@Hasher.md5(t).Substring(0,6)"><span>@t</span></div>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-0 mb-1">[@(p.GroupName != null && p.GroupName.Length <= 0 ? "未分组" : p.GroupName)]</p>
+                        <h4 class="card-title">@p.Title</h4>
+                        <p class="card-text">@p.Preview</p>
+                        <div class="card-text"><img src="/img/element/watched.svg" width="24" height="24">&nbsp;&nbsp;@p.CounterVisit&nbsp;&nbsp;<img src="/img/element/comments.svg" width="24" height="24">&nbsp;&nbsp;@p.CounterComments&nbsp;</div>
+                        <p class="card-text" align="right">@p.TimeLastEdit.ToString("yyyy年MM月dd日 HH时mm分")</p>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>

@@ -1,0 +1,18 @@
+#groupShower{
+    color:black;
+}
+#groupShower>a{
+    margin:0;
+    padding: .6em 1em;
+    display:block;
+    border-top:1px solid #ccc;
+    user-select:none;
+    color:inherit;
+}
+#groupShower>a:hover{
+    text-decoration: none;
+    color:inherit;
+}
+#groupShower>a:first-child{
+    border-top:none;
+}

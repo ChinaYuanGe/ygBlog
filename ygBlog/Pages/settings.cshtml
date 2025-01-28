@@ -1,0 +1,31 @@
+﻿@page
+@using System.Reflection
+@model ygBlog.Pages.settingsModel
+@{
+    ViewData["title"] = "服务器设置";
+    Type SettingsRoot = typeof(Settings);
+    Type[] Namespaces = SettingsRoot.GetNestedTypes();
+}
+
+@foreach (var t in Namespaces)
+{
+    <div class="col-sm-12">
+        <h2>@t.Name</h2>
+        @foreach (var i in t.GetMethods().Where(x=>x.Name.StartsWith("get_")))
+        {
+            @for (Setting val = (Setting)i.Invoke(null, null); ;)
+            {
+                <div class="input-group" ygdat-target="@($"{val.Namespace}:{@val.Key}")" ygdat-value="@val.Value">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">@i.Name.Replace("get_","")</span>
+                    </div>
+                    <textarea class="form-control"></textarea>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">提交</button>
+                    </div>
+                </div>
+                break;
+            }
+        }
+    </div>
+}

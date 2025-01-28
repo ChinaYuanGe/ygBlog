@@ -1,0 +1,15 @@
+.mce-content-body p {
+    margin: .2em 0;
+}
+
+.mce-content-body h2 {
+    margin: .6em 0;
+}
+
+.mce-content-body h3 {
+    margin: .4em 0;
+}
+
+.mce-content-body img {
+    max-width: 98%;
+}

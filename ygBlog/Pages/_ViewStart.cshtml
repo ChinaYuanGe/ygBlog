@@ -1,0 +1,6 @@
+﻿@{
+    Layout = "_Layout";
+
+    bool Night = DateTime.Now.Hour > 18 || DateTime.Now.Hour < 6;
+    ViewData["nighted"] = Night;
+}

@@ -1,0 +1,18 @@
+#input_title{
+    text-align: center;
+    font-size:2em;
+}
+.picPreview{
+    width:100%;
+    height:10em;
+    object-fit: cover;
+    object-position: center;
+}
+.prevServerPic{
+    width:100%;
+    height:16em;
+    object-fit: contain;
+    object-position: center;
+    background-color:#999;
+    border:1px solid #ccc;
+}

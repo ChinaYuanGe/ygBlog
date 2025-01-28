@@ -1,0 +1,8 @@
+.commentCard {
+    color: white !important;
+}
+
+.commentBody::after,
+.commentBody::before {
+    border-color: white !important;
+}

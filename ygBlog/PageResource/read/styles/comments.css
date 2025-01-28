@@ -1,0 +1,119 @@
+.commentCard {
+    padding: 8px;
+}
+
+.commentHead {
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.commentHead img {
+    width: 4em;
+    height: 4em;
+    margin-right: 8px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+.commentHead>div:last-child {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.commentHead>div:last-child>div:first-child[contenteditable] {
+    min-width: 8em;
+    border-bottom: 1px solid #ccc;
+}
+
+.commentHead>div:last-child>div:first-child[contenteditable]:empty::after {
+    content: attr(placeholder);
+    color: #999;
+    position: absolute;
+    user-select: none;
+}
+
+.commentHead>div:last-child>div:last-child[contenteditable] {
+    font-size: .8em;
+    font-weight: lighter;
+    min-width: 12em;
+    border-bottom: 1px solid #ccc;
+}
+
+.commentHead>div:last-child>div:last-child[contenteditable]:empty::after {
+    content: attr(placeholder);
+    color: #999;
+    position: absolute;
+    user-select: none;
+}
+
+.commentHead small {
+    color: #777;
+}
+
+.commentBody {
+    position: relative;
+    margin-top: 4px;
+    padding: 8px;
+}
+
+.commentBody::after {
+    content: ' ';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 6px;
+    height: 8px;
+    border-right: 2px;
+    border-bottom: 2px;
+    border-top: 0px;
+    border-left: 0px;
+    border-color: #444;
+    border-style: solid;
+}
+
+.commentBody::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 8px;
+    border-left: 2px;
+    border-top: 2px;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-color: 444;
+    border-style: solid;
+}
+
+.commentRep {
+    background-color: #444;
+    color: white;
+    padding: 0 4px;
+    margin-bottom: 4px;
+
+}
+
+.commentRep[order] {
+    user-select: none;
+    cursor: pointer;
+}
+
+.pagenation {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.commentBody>div[contenteditable] {
+    border-bottom: 1px solid #ccc;
+}
+
+.commentBody>div[contenteditable]:empty:after {
+    content: attr(placeholder);
+    position: absolute;
+    color: #999;
+    user-select: none;
+}

@@ -1,0 +1,121 @@
+﻿@page
+@using Models
+@using Tools
+@using Managment
+@model IndexModel
+@{
+    ViewData["Title"] = "主页";
+
+    var CurrentPage = (int)ViewData["query_page"];
+
+    var Posts = (PostData[])ViewData["posts"];
+    var inVerifingComment = (long)ViewData["count_comments_verf"];
+
+    var MaxPage = (int)ViewData["maxpage"];
+
+    List<(string href, string title, string iconhref, string btnType)> MyLinks = new List<(string href, string title, string iconhref, string btnType)>();
+
+    foreach (string l in Settings.MainPage.MyLinks.Value.Split("\n"))
+    {
+        string[] dat = l.Split(',');
+        MyLinks.Add((dat[0], dat[1], dat[2], dat[3]));
+    }
+}
+<div class="row">
+    <div id="post_list" class="col-sm-8">
+        @foreach (PostData p in Posts)
+        {
+            <a style="text-decoration:none" href="/read/@p.Id">
+                <div class="card art_cardview">
+                    <img src="@Urls.PostImagePath/@p.Images.TitleImage" class="card-img-top">
+                    <div class="tagContainer">
+                        @foreach (string t in p.Tags)
+                        {
+                            <div class="art_tag" style="background-color:#@Hasher.md5(t).Substring(0,6);color:#@Hasher.md5(t).Substring(0,6)"><span>@t</span></div>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <p class="mt-0 mb-1">[@(p.GroupName != null && p.GroupName.Length <= 0 ? "未分组" : p.GroupName)]</p>
+                        <h4 class="card-title">@p.Title</h4>
+                        <p class="card-text">@p.Preview</p>
+                        <div class="card-text"><img src="/img/element/watched.svg" width="24" height="24">&nbsp;&nbsp;@p.CounterVisit&nbsp;&nbsp;
+                            @if (Settings.Comments.Enable.Value == "1")
+                            {
+                                <img src="/img/element/comments.svg" width="24" height="24">  @p.CounterComments ;
+                            }
+                            </div>
+                        <p class="card-text" align="right">@p.TimePubished.ToString("yyyy年MM月dd日 HH时mm分")</p>
+                    </div>
+                </div>
+            </a>
+        }
+        <nav aria-label="Page navigation">
+            <ul class="pagination mt-3" style="justify-content:center">
+                <li class="page-item"><a class="page-link" href="/?p=0&amp;group=@ViewData["query_groupid"]&amp;search=@System.Web.HttpUtility.UrlEncode(ViewData["query_search"].ToString())">&lt;&lt;</a></li>
+                @for (int i = (CurrentPage - 2 < 0 ? 0 : CurrentPage - 2); i < (CurrentPage + 5 > MaxPage ? MaxPage : CurrentPage + 5); i++)
+                {
+                    <li class="page-item@(CurrentPage == i ? " active" : "")"><a class="page-link" href="/?p=@i&amp;group=@ViewData["query_groupid"]&amp;search=@System.Web.HttpUtility.UrlEncode(ViewData["query_search"].ToString())">@(i + 1)</a></li>
+                }
+                <li class="page-item"><a class="page-link" href="/?p=@(MaxPage-1)&amp;group=@ViewData["query_groupid"]&amp;search=@System.Web.HttpUtility.UrlEncode(ViewData["query_search"].ToString())">&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="side_panel" class="col-sm-4">
+        <div class="exCard">
+            <p class="mt-2" style="text-align:center">
+                <img src="/img/custom/avator.png" style="width:8em;height:8em;border-radius:50%;object-fit: cover;">
+            </p>
+            <h3 style="text-align:center">@Settings.Global.Hoster</h3>
+            <p style="text-align:center">@Settings.Global.Hoster_Des</p>
+            <div style="display:flex;flex-wrap:nowrap;justify-content:space-around">
+                <div style="width: fit-content;">
+                    <h4 style="text-align:center">@ViewData["count_totalpost"]</h4>
+                    <p style="text-align:center">文章</p>
+                </div>
+                @if(Settings.Comments.Enable.Value == "1"){
+                    <div style="width: fit-content;">
+                        <h4 style="text-align:center">
+                            @ViewData["count_comments"]@if (inVerifingComment > 0)
+                            {
+                                <span style="color:#D34E00;font-size:.8em">+@inVerifingComment</span>
+                            }
+                        </h4>
+                        <p style="text-align:center">评论</p>
+                    </div>
+                }
+            </div>
+            <div class="mylinks">
+                @foreach (var item in MyLinks)
+                {
+                    <div><a title="@item.title" href="@item.href" class="btn btn-outline-@item.btnType"><img src="@item.iconhref"></a></div>
+                }
+            </div>
+        </div>
+        <div class="exCard">
+            <h5>搜索</h5>
+            <div class="input-group">
+                <input id="input_search" type="text" class="form-control" placeholder="文章标题" aria-label="文章标题" aria-describedby="button-addon2" value="@ViewData["query_search"]">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="doSearch()">检索</button>
+                </div>
+            </div>
+        </div>
+        <div class="exCard">
+            <div id="tagLister">
+                @foreach (string s in (string[])ViewData["recent_tags"])
+                {
+                    <a class="art_atag" href="/?p=@ViewData["query_page"].ToString()&amp;group=@ViewData["query_groupid"]&amp;search=@System.Web.HttpUtility.UrlEncode(s)"><div class="art_tag" style="background-color:#@Hasher.md5(s).Substring(0,6);color:#@Hasher.md5(s).Substring(0,6)"><span class="rej">@s</span></div></a>
+                }
+            </div>
+        </div>
+        <div class="exCard">
+            <h4 class="mb-1">分组 <span class="badge badge-primary">@ViewData["groupCount"]</span> <button style="float:right;" class="btn btn-small btn-sm btn-primary" data-target="#groupShower" data-toggle="collapse" aria-expanded="true">⬘</button></h4>
+            <div id="groupShower" class="@((bool)ViewData["nighted"] ? "night" : "") collapse show">
+                @foreach ((long, string, long) v in ((long, string, long)[])ViewData["groups"])
+                {
+                    <a href="/?p=@ViewData["query_page"].ToString()&amp;group=@v.Item1&amp;search=@System.Web.HttpUtility.UrlEncode(ViewData["query_search"].ToString())"><span class="badge badge-primary">@v.Item3</span>&nbsp;@v.Item2</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

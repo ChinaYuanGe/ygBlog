@@ -1,0 +1,7 @@
+.art_cardview{
+    background-color:#333 !important;
+    color:white !important;
+}
+.art_cardview .card-body{
+    background-color: #444 !important;
+}

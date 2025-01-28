@@ -1,0 +1,21 @@
+﻿@page
+@using Models
+@model ygBlog.Pages.archiveModel
+@{
+    ViewData["title"] = "归档";
+    var output = new Managment.PostManager(Program.db).GetArchiveData();
+}
+<div class="lineboard">
+    @foreach (var i in output)
+    {
+        <div class="lb-title">@i.Key 年</div>
+        @foreach (var j in i.Value)
+        {
+            <div class="lb-sub">@j.Key 月</div>
+            @foreach (var p in j.Value)
+            {
+                <a class="lblink" href="/read/@p.id"><div class="lb-content"><p>[@p.GroupName] @p.Title</p></div></a>
+            }
+        }
+    }
+</div>

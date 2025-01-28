@@ -1,0 +1,53 @@
+body {
+    background-color: #343a40 !important;
+}
+
+.nav-link,
+.nav-item,
+.navbar-brand {
+    color: white !important;
+}
+
+.modal-content {
+    background-color: #444 !important;
+}
+
+#GuiderContainer {
+    background-color: #343a40 !important;
+    color: white;
+}
+
+#GuideHolder {
+    background-color: #343a40 !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+.night h1,
+.night h2,
+.night h3,
+.night h4,
+.night h5,
+.night a,
+.night p{
+    color: #ddd !important;
+}
+
+hr {
+    background-color: #eee;
+}
+
+.page-item:not(.active) a {
+    background-color: #222 !important;
+}
+
+.page-item:not(.active) a:hover {
+    background-color: #444 !important;
+}
+
+.card_sp {
+    color: white !important;
+}
+
+.mce-content-body>* {
+    color: white;
+}

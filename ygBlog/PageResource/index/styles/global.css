@@ -1,0 +1,27 @@
+@media SCREEN AND (max-width: 576px) {
+    #main_container {
+        flex-direction: column-reverse !important;
+    }
+}
+
+.exCard {
+    padding: .4em;
+    border: 1px solid #aaa;
+    margin-bottom: 1em;
+}
+
+.mylinks {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mylinks>div {
+    margin: 4px 8px;
+}
+
+.mylinks img {
+    width: 1em;
+    height: 1em;
+    margin-top: -4px;
+}
