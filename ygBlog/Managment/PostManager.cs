@@ -88,6 +88,10 @@ namespace ygBlog.Managment
             read.Close();
             return dat.ToArray();
         }
+        public int AddPostVisit(long postid)
+        {
+            return db.Execute($"UPDATE posts SET counter_visit=counter_visit+1 WHERE id={postid}");
+        }
         public PostData? GetPost(long postid)
         {
             var read = db.Query($"SELECT " +

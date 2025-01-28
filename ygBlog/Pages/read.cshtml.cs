@@ -11,10 +11,12 @@ namespace ygBlog.Pages
         {
             if (id >= 0)
             {
-                PostData? read = new Managment.PostManager(Program.db).GetPost(id);
+                var pMan = new Managment.PostManager(Program.db);
+                PostData? read = pMan.GetPost(id);
                 if (read != null && (int)read.Status > 0)
                 {
                     ViewData["post"] = (PostData)read;
+                    pMan.AddPostVisit(read.Id);
                 }
                 else NotFound();
             }
