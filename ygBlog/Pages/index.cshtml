@@ -21,7 +21,7 @@
         MyLinks.Add((dat[0], dat[1], dat[2], dat[3]));
     }
 }
-<div class="row">
+<div id="postContainer" class="row">
     <div id="post_list" class="col-sm-8">
         @foreach (PostData p in Posts)
         {
@@ -110,7 +110,7 @@
         </div>
         <div class="exCard">
             <h4 class="mb-1">分组 <span class="badge badge-primary">@ViewData["groupCount"]</span> <button style="float:right;" class="btn btn-small btn-sm btn-primary" data-target="#groupShower" data-toggle="collapse" aria-expanded="true">⬘</button></h4>
-            <div id="groupShower" class="@((bool)ViewData["nighted"] ? "night" : "") collapse show">
+            <div id="groupShower" class="@((bool)ViewData["nighted"] ? "night" : "") collapse">
                 @foreach ((long, string, long) v in ((long, string, long)[])ViewData["groups"])
                 {
                     <a href="/?p=@ViewData["query_page"].ToString()&amp;group=@v.Item1&amp;search=@System.Web.HttpUtility.UrlEncode(ViewData["query_search"].ToString())"><span class="badge badge-primary">@v.Item3</span>&nbsp;@v.Item2</a>

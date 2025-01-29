@@ -1,5 +1,5 @@
 @media SCREEN AND (max-width: 576px) {
-    #main_container {
+    #postContainer {
         flex-direction: column-reverse !important;
     }
 }
