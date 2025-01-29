@@ -1,4 +1,4 @@
-$(function(){
+ï»¿$(function(){
     window.addEventListener('keydown',function(e){
         if(e.ctrlKey && e.keyCode == 83){
             e.preventDefault();
@@ -7,12 +7,12 @@ $(function(){
     });
 });
 
-//¶¨Ê±
+//å®šæ—¶
 $(function () {
     setInterval(() => {
         if (global_saved == false) {
             saveArtContent(() => {
-                bsMKalert('ÒÑ×Ô¶¯±£´æÄÚÈİ', 'success', '#alertHolder', 3000);
+                bsMKalert('å·²è‡ªåŠ¨ä¿å­˜å†…å®¹', 'success', '#alertHolder', 3000);
             }, false);
         }
     }, 60 * 1000);

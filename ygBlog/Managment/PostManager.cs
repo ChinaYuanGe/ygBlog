@@ -142,7 +142,7 @@ namespace ygBlog.Managment
             string FileRoot = Path.Combine(FileDir.PostRoot, Id.ToString());
             if (!File.Exists(Path.Combine(FileRoot, "images.json")))
             {
-                return (null, Array.Empty<string>());
+                return ("default_title.png", Array.Empty<string>());
             }
 
             JObject obj = JObject.Parse(File.ReadAllText(Path.Combine(FileRoot, "images.json")));
