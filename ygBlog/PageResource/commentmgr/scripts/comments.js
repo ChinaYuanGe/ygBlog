@@ -60,7 +60,7 @@ function ReloadComment(page) {
                             '</td>');
 
                         // 鉴别信息
-                        tr.append('<td>Email:' + x['email'] + '<br/> ' + x['endpoint'] + '</td>');
+                        tr.append('<td>' + x['email'] + '<br/> ' + x['endpoint'] + '</td>');
                         tr.append('<td>' + x['time'] + '</td>');
 
                         let btnTd = $('<td></td>');

@@ -63,5 +63,23 @@ namespace ygBlog
             public static Setting OutputLimit => new Setting(Settings.db, "output_limit", "comments", "5");
             public static Setting AnonymousName => new Setting(Settings.db, "def_name", "comments", "无名氏");
         }
+        public static class SEO
+        {
+            public static Setting Description => new Setting(Settings.db, "description", "seo", "seo:description 未设置");
+            public static Setting Keywords => new Setting(Settings.db, "keywords", "seo", "seo:keywords 未设置");
+        }
+        public static class SMTP { 
+            public static Setting Enable => new Setting(db, "enable", "smtp", "0");
+            public static Setting Server => new Setting(db, "server", "smtp", "smtp.example.com");
+            public static Setting ServerPort => new Setting(db, "port", "smtp", "25");
+            public static Setting Auth_User => new Setting(db, "auth_user", "smtp");
+            public static Setting Auth_Pass => new Setting(db, "auth_pass", "smtp");
+            public static Setting SenderMail => new Setting(db, "sender", "smtp");
+            public static Setting SenderName => new Setting(db, "sendername", "smtp", "ygblog_System");
+            public static Setting ManagerEmail => new Setting(db, "manager_email", "smtp", "example@ex.com");
+        }
+        public static class Other {
+            public static Setting BindingDomain => new Setting(db, "binding_domain", "other", "nodomain.com");
+        }
     }
 }

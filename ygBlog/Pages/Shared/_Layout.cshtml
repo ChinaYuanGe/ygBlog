@@ -62,6 +62,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="@(ViewData["keywords"] == null ? Settings.SEO.Keywords : ViewData["keywords"])"/>
+    <meta name="description" content="@(ViewData["description"] == null ? Settings.SEO.Description : ViewData["description"])" />
     <title>@ViewData["Title"] - @Settings.Global.Title.Value</title>
     
     <script>window.isNight = @(Night ? "true" : "false");</script>

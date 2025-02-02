@@ -27,7 +27,7 @@ namespace ygBlog.Pages
             ViewData["recent_tags"] = postMan.GetRecentTags();
             long PostCount = postMan.GetPostCount(PostStatus.Pubished, ">=", search, groupid);
             ViewData["count_totalpost"] = PostCount;
-            ViewData["count_comments"] = commMan.GetCommentCount();
+            ViewData["count_comments"] = commMan.GetCommentCount(0, CommentVisible.Visible);
             ViewData["count_comments_verf"] = commMan.GetCommentCount(0, CommentVisible.Verifing);
 
             ViewData["maxpage"] = (int)Math.Ceiling((double)PostCount / double.Parse(Settings.MainPage.PostOutputLimit.Value));

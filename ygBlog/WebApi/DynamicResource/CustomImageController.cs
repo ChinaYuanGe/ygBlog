@@ -16,6 +16,11 @@ namespace ygBlog.WebApi.DynamicResource
                 var mineProvider = new FileExtensionContentTypeProvider();
                 string mime = $"image/{Path.GetExtension(FileName)}";
                 mineProvider.TryGetContentType(FileName, out mime);
+
+                System.IO.FileInfo finfo = new FileInfo(path);
+
+                this.HttpContext.Response.Headers.LastModified = finfo.LastWriteTimeUtc.ToString("R");
+
                 byte[] content = System.IO.File.ReadAllBytes(path);
                 return File(content, mime);
             }

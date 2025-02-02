@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Web;
+using ygBlog.Tools;
 
 namespace ygBlog.Models
 {
@@ -22,6 +23,8 @@ namespace ygBlog.Models
         public string Content { get; set; }
         [JsonProperty(PropertyName = "artid")]
         public long PostID { get; set; }
+        [JsonIgnore]
+        public PostData PostData => new Managment.PostManager(Program.db).GetPost(PostID);
         [JsonIgnore]
         public Comment? Respond { get; set; }
         [JsonProperty(PropertyName = "respid")]
@@ -48,7 +51,7 @@ namespace ygBlog.Models
             get
             {
                 if (Respond == null) return "";
-                return Convert.ToBase64String(Encoding.ASCII.GetBytes(HttpUtility.HtmlEncode(Respond.Content)));
+                return CyBlogOldUnit.Comment.Encode(Respond.Content);
             }
         }
         [JsonIgnore]

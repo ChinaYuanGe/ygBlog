@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ObjectPool;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Diagnostics;
 using ygBlog.Models;
+using ygBlog.Tools;
 
 namespace ygBlog.WebApi.Query.Posts.Comments
 {
@@ -75,6 +78,19 @@ namespace ygBlog.WebApi.Query.Posts.Comments
 
             if (cMan.CreateComment(c, CreateVisibleStatus) > 0)
             {
+                var eMan = new Managment.MailManager(Tools.HostUrlBuilder.Build(HttpContext));
+                if (CreateVisibleStatus == CommentVisible.Visible)
+                {
+                    if (c.Respond != null)// Send email if user is whitelist and reply to someone
+                    {
+                        c.Content = CyBlogOldUnit.Comment.Decode(c.Content);
+                        eMan.SendCommentReplyNotice(c);
+                    }
+                }
+                else if(CreateVisibleStatus == CommentVisible.Verifing)
+                {
+                    eMan.SendWaitVerifyCommentToManager(c);
+                }
                 return new JsonResult(ApiResponse.Success(new Dictionary<string, object>
                 {
                     { "checking",CreateVisibleStatus == CommentVisible.Verifing}

@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using Useful.Tools;
 using ygBlog.Models;
+using ygBlog.Tools;
 
 namespace ygBlog.Managment
 {
@@ -28,7 +29,7 @@ namespace ygBlog.Managment
                     Id = Convert.ToInt64(read["id"]),
                     Name = read["name"].ToString(),
                     Email = read["email"].ToString(),
-                    Content = HttpUtility.UrlDecode(Encoding.ASCII.GetString(Convert.FromBase64String(read["content"].ToString()))),
+                    Content = CyBlogOldUnit.Comment.Decode(read["content"].ToString()),
                     PostID = Convert.ToInt64(read["artid"]),
                     Respond = GetCommentByID(Convert.ToInt64(read["resp"]), condition == CommentVisible.Visible),
                     Visible = (CommentVisible)Convert.ToInt32(read["visible"]),
@@ -52,7 +53,7 @@ namespace ygBlog.Managment
                     Id = Convert.ToInt64(read["id"]),
                     Name = read["name"].ToString(),
                     Email = read["email"].ToString(),
-                    Content = Uri.EscapeDataString(Encoding.ASCII.GetString(Convert.FromBase64String(read["content"].ToString()))),
+                    Content = CyBlogOldUnit.Comment.Decode(read["content"].ToString()),
                     PostID = Convert.ToInt64(read["artid"]),
                     Respond = GetCommentByID(Convert.ToInt64(read["resp"])),
                     Visible = (CommentVisible)Convert.ToInt32(read["visible"]),

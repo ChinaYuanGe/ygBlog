@@ -43,7 +43,7 @@ namespace ygBlog.WebApi.Query.Posts.Comments
                 }
 
                 // Convert to client can understanded
-                item.Content = Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(item.Content)));
+                item.Content = CyBlogOldUnit.Comment.Encode(item.Content);
             }
             return new JsonResult(ApiResponse.Success(new Dictionary<string, object>
             {
