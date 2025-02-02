@@ -4,7 +4,6 @@ using ygBlog.Models;
 
 namespace ygBlog.WebApi.Query.Rss
 {
-    [Authorize]
     [Route("feed")]
     [ApiController]
     [WebApiExceptionFilter]
@@ -31,7 +30,7 @@ namespace ygBlog.WebApi.Query.Rss
             {
                 Content =
                 $"""
-                <?xml version="1.0"?>
+                <?xml version="1.0" encoding="UTF-8"?>
                 <rss version="2.0">
                     <channel>
                         <title>{Settings.Global.Title}</title>
