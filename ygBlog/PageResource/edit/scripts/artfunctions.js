@@ -55,6 +55,31 @@ function uploadImage(type, file, method) {
     formData.append('file', file);
     a = formData;
 
+    fetch("/api/post/upload_image", {
+        method: "POST",
+        headers: {
+            contentType: "multipart/form-data"
+        },
+        body: formData
+    }).then((resp) => {
+        return resp.json();
+    }).then((data) => {
+        switch (data['status']) {
+            case 200:
+                method.success(data['data']);
+                break;
+            default:
+                console.error('无法上传图片:' + data['data']['msg']);
+                method.fail(data['data']['msg']);
+                break;
+
+        }
+        method.always();
+    }).catch((t) => {
+        method.error(t);
+        method.always();
+    });
+    /*
     $.ajax({
         type: 'post',
         url: "/api/post/upload_image",
@@ -79,12 +104,15 @@ function uploadImage(type, file, method) {
             method.error(t);
             method.always();
         }
-    });
+    });*/
 }
 
 function uploadTitleImage() {
     let input = document.createElement('input');
+    $("#for_ios_shit_input").append(input);
+
     input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
 
     input.onchange = () => {
         var modal = mkAutoAlertModal('上传封面', '正在上传图片,请稍后...', () => {
@@ -101,6 +129,7 @@ function uploadTitleImage() {
                 always: () => {
                     dismissModal(modal);
                     GetServerImages();
+                    input.remove();
                 }
             });
         }, '上传...', 'primary');

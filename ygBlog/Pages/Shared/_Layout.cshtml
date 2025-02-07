@@ -1,4 +1,10 @@
 ﻿@{
+#if DEBUG
+        // append Eruda for mobile debug
+        bool GlobalDebug = false;
+#else
+        bool GlobalDebug = false;
+#endif
     // Page defintions.
     (string To, string Display, bool RequireLogin, bool hideAfterLogin)[] Nav = {
         ("/","主页",false,false),
@@ -115,6 +121,12 @@
         {
             <link rel="stylesheet" href="~/pageres/@(page)/styles/@str" />
         }
+    }
+
+    @if (GlobalDebug)
+    {
+        <script src="//cdn.bootcdn.net/ajax/libs/eruda/2.3.3/eruda.js"></script>
+        <script>$(function () { eruda.init(); })</script>
     }
 </head>
 <body>

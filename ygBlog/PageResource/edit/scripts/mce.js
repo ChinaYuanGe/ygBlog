@@ -40,8 +40,11 @@ function initMCE() {
 		file_picker_types: "image",
 		file_picker_callback: (callback, val, meta) => {
 			var input = document.createElement('input');
+			$("#for_ios_shit_input").append(input);
+
 			input.setAttribute('type', 'file');
 			input.setAttribute('accept', 'image/*');
+
 			input.onchange = () => {
 				var modal = mkAutoAlertModal('上传图片', '正在上传，请稍后...', () => {
 					uploadImage(0, input.files[0], {
@@ -61,6 +64,7 @@ function initMCE() {
 						},
 						always: () => {
 							dismissModal(modal);
+							input.remove();
 						}
 					});
 				}, '上传...', 'primary');
