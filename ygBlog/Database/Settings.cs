@@ -50,6 +50,7 @@ namespace ygBlog
             public static Setting MyLinks => new Setting(Settings.db, "my_links", "mainpage", 
                 /* href,title,favicon url,bs_button type<\n>next... */
                 "mailto:chinayuangel@outlook.com,向我发送邮件,/img/element/email.svg,danger");
+            public static Setting RamdonTitle => new Setting(Settings.db, "random_title", "mainpage");
         }
         public static class AvatarService { 
             public static Setting Url => new Setting(Settings.db,"url_template","avatar", "https://cn.gravatar.com/avatar/{0}?s=128&d=retro");

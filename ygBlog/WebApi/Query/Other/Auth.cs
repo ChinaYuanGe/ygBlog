@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ygBlog.Managment;
 using ygBlog.Models;
 
 namespace ygBlog.WebApi.Query.Other
@@ -18,7 +19,7 @@ namespace ygBlog.WebApi.Query.Other
 #if DEBUG
 
 #else
-            Thread.Sleep(500); //Anti brute-force
+            Thread.Sleep(800); //Anti brute-force
 #endif
 
             if (Settings.Global.Password.Value != null)
@@ -41,13 +42,11 @@ namespace ygBlog.WebApi.Query.Other
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "admin"),
-                new Claim(ClaimTypes.Role, "admin")
+                new Claim("ticket",SessionManager.RenewTicket())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties() { ExpiresUtc = DateTime.Now.AddDays(1) });
+            HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties() { ExpiresUtc = DateTime.Now.AddHours(12), AllowRefresh = true });
         }
     }
 }

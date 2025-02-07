@@ -26,8 +26,8 @@ namespace ygBlog.WebApi.Query.Posts.Comments
             var cMan = new Managment.CommentManager(Program.db);
             int limits = int.Parse(Settings.Comments.OutputLimit.Value);
 
-            var acturalVisibleType = (visibleType != (int)CommentVisible.Visible ?
-                (canShowSensity ? (CommentVisible)visibleType : CommentVisible.Visible) :
+            CommentVisible? acturalVisibleType = (visibleType != (int)CommentVisible.Visible ?
+                (canShowSensity ? (visibleType < -10 ? null : (CommentVisible)visibleType) : CommentVisible.Visible) :
                 CommentVisible.Visible);
 
             var comments = cMan.GetComments((int)page, limits, postid, acturalVisibleType);

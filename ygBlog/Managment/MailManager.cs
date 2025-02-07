@@ -32,6 +32,7 @@ namespace ygBlog.Managment
                 Who:{who},
                 Subject:{subject},
                 Content:
+
                 {HtmlContent}
                 ===========END OF EMAIL===========
                 """);

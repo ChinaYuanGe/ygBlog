@@ -13,7 +13,7 @@ function PostComment(name, email, rawcontent, rep) {
                             ReloadComment(0);
                         }
                         else {
-                            mkAlertModal('提交完毕', '您的评论需要审核, 所以目前不会展示在评论区内.<br>不过站长是可以第一时间看到的.');
+                            mkAlertModal('提交完毕', '您的评论需要审核, 所以目前不会展示在评论区内.<br>一旦评论审核通过, 将会有邮件通知你(前提是你输入了正确的电子邮箱)');
                         }
                         break;
                     default:

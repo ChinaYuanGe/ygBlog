@@ -33,7 +33,9 @@ function SetCommentStatus(id, status, white = false) {
 }
 
 function ReloadComment(page) {
-    ajax_get('/api/comments/get', {postid:-1, page: page, ss:true, h:0}, w = {
+    let typeFilter = $("#typeSelection").val();
+
+    ajax_get('/api/comments/get', { postid: -1, page: page, ss: true, h: parseInt(typeFilter) }, w = {
         before: () => {
             $("#comments tbody").empty();
             $('#comments tbody').append('加载中...');
@@ -64,9 +66,9 @@ function ReloadComment(page) {
                         tr.append('<td>' + x['time'] + '</td>');
 
                         let btnTd = $('<td></td>');
-                        let passBtn = $('<button class="btn btn-success mt-1">放行</button>');
+                        let passBtn = $('<button class="btn btn-success mt-1">展示</button>');
                         passBtn.click(function () {
-                            mkConfirmModal('放行确认', '需要放行该评论吗?', () => {
+                            mkConfirmModal('放行确认', '确认展示该评论吗?', () => {
                                 PassComment(x['id']);
                             }, true, 'success', '确认');
 
@@ -76,16 +78,16 @@ function ReloadComment(page) {
 
                         let whiteBtn = $('<button class="btn btn-warning mt-1">白名单</button>')
                         whiteBtn.click(function () {
-                            mkConfirmModal('白名单确认', '确认要将其加入白名单吗?', () => {
+                            mkConfirmModal('白名单确认', '确认要放行并将其 Email 加入白名单吗?', () => {
                                 PassComment(x['id'], 1);
                             }, true, 'warning', '确认');
 
                         });
                         btnTd.append(whiteBtn);
 
-                        let delBtn = $('<button class="btn btn-danger mt-1">删除</button>')
+                        let delBtn = $('<button class="btn btn-danger mt-1">隐藏</button>');
                         delBtn.click(function () {
-                            mkConfirmModal('删除确认', '确认要删除该评论吗?', () => {
+                            mkConfirmModal('删除确认', '确认要隐藏该评论吗?', () => {
                                 DelComment(x['id']);
                             }, true, 'danger', '确认');
                         });

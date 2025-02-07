@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using ygBlog.Managment;
 using ygBlog.WebApi.Query;
 
 namespace ygBlog
@@ -51,6 +52,18 @@ namespace ygBlog
                 .AddCookie(o =>
                 {
                     o.LoginPath = "/login";
+                    o.Events.OnValidatePrincipal = async (c) => {
+                        var ticket = c.Principal.Claims.ToList().Where(x => x.Type == "ticket");
+                        if (ticket.Count() <= 0) {
+                            c.RejectPrincipal();
+                            return;
+                        }
+                        if (!SessionManager.TicketAvailable(ticket.First().Value)) {
+                            c.RejectPrincipal();
+                            return;
+                        }
+                    };
+                    o.ReturnUrlParameter = "ret";
                 });
 
             var app = builder.Build();

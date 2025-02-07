@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
+using ygBlog.Models;
 
 namespace ygBlog.WebApi.Query.Posts.Comments
 {
@@ -12,6 +14,10 @@ namespace ygBlog.WebApi.Query.Posts.Comments
         [HttpGet]
         public async Task<IActionResult> Get([FromRoute] string hash)
         {
+            if (hash.Length != 32 && !Regex.Match(hash, "^[0123456789abcdef]+$/g").Success) { 
+                return new JsonResult(ApiResponse.Fail("Invaild Input."));
+            }
+
             string cachePath = Path.Combine(FileDir.CacheAvatarRoot, $"{hash}.png");
 
             bool downloadNeeded =  

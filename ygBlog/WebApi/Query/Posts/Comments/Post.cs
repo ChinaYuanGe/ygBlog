@@ -29,7 +29,7 @@ namespace ygBlog.WebApi.Query.Posts.Comments
 
 #if DEBUG
 #else
-            Thread.Sleep(500);
+            Thread.Sleep(800); //Anit dos (ddos is not defencible if a single host)
 #endif
 
             bool userIsAuth = (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated);
@@ -48,21 +48,21 @@ namespace ygBlog.WebApi.Query.Posts.Comments
             {
                 if ((cMan.GetCommentCount(0, CommentVisible.Verifing) + 1) > long.Parse(Settings.Comments.VerifyQueueMax.Value))
                 {
-                    return new JsonResult(ApiResponse.Fail("审核队列已爆满,过会再来试吧"));
+                    return new JsonResult(ApiResponse.Fail("审核队列已爆满,过会再来试吧."));
                 }
             }
 
             System.Net.Mail.MailAddress? tmp;
 
             if (System.Net.Mail.MailAddress.TryCreate(email,out tmp) == false) {
-                return new JsonResult(ApiResponse.Fail("请输入正确的电子邮箱"));
+                return new JsonResult(ApiResponse.Fail("请输入正确的电子邮箱."));
             }
             if (name.Length < 1)
             {
                 name = Settings.Comments.AnonymousName.Value;
             }
-            if (content.Length < 4) {
-                return new JsonResult(ApiResponse.Fail("请输入更多文字以防止浪费"));
+            if (content.Length < 1) {
+                return new JsonResult(ApiResponse.Fail("请至少输入一个中文字符或两个英文字符."));
             }
 
             Comment c = new Comment()
@@ -70,7 +70,7 @@ namespace ygBlog.WebApi.Query.Posts.Comments
                 PostID = postid,
                 Name = name,
                 Email = email,
-                Content = content,
+                Content = CyBlogOldUnit.Comment.Encode(SecurityUnit.EscapeHtmlArrow(CyBlogOldUnit.Comment.Decode(content))),
                 Respond = repeat != null ? cMan.GetCommentByID((long)repeat) : null,
                 Time = DateTime.Now,
                 EndPoint = $"{HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}"

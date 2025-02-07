@@ -71,7 +71,17 @@ namespace ygBlog.Database
         }
         public int SetConfig(string key, string? value = null, string Namespace = "g")
         {
-            if (GetConfig(key, null, Namespace) != null)
+            string? prev = GetConfig(key, null, Namespace);
+
+            if (ConfigChangingEvents.ContainsKey((Namespace, key)))
+            {
+                ConfigChangingEvents[(Namespace, key)].ForEach(x =>
+                {
+                    x.Invoke((prev, value));
+                });
+            }
+
+            if (prev != null)
             {
                 return this.Execute("UPDATE settings SET `value`=@val WHERE `namespace`=@nspace AND `key`=@key",
                     ("@nspace", Namespace),
@@ -85,6 +95,16 @@ namespace ygBlog.Database
                 ("@key", key),
                 ("@val", value != null ? value : DBNull.Value));
             }
+        }
+
+        Dictionary<(string Namespace, string Key), List<Action<(string? prev, string? next)>>> ConfigChangingEvents = new Dictionary<(string Namespace, string Key), List<Action<(string? prev, string? next)>>>();
+        public void RegisterConfigChangingEvent(string key, Action<(string? prev, string? next)> action, string Namespace = "g")
+        {
+            if (!ConfigChangingEvents.ContainsKey((Namespace, key)))
+            {
+                ConfigChangingEvents.Add((Namespace, key), new List<Action<(string? prev, string? next)>>());
+            }
+            ConfigChangingEvents[(Namespace, key)].Add(action);
         }
         public int StructVersion
         {

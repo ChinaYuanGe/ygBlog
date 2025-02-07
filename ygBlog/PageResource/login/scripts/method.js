@@ -9,7 +9,10 @@
             switch (data['status']) {
                 case 200:
                     bsMKalert('登录成功', 'success', '#alertPlacer', 3000);
-                    setTimeout(() => { window.location.href = "/" }, 500);
+
+                    let retPath = getQueryVariable('ret');
+
+                    setTimeout(() => { window.location.href = (retPath === false ? "/" : decodeURIComponent(retPath)) }, 500);
                     break;
                 case 403:
                     bsMKalert('验证失败', 'danger', '#alertPlacer', 3000);

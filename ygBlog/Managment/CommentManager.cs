@@ -18,7 +18,7 @@ namespace ygBlog.Managment
         }
         public Comment[] GetComments(int page, int limit, long postid = -1, CommentVisible? condition = CommentVisible.Visible, string how = "=")
         {
-            var read = db.Query($"SELECT * FROM comments{(postid >= 0 ? $" WHERE artid={postid}" : "")}{(condition != null ? $" {(postid >= 0 ? " AND" : " WHERE")} visible{how}{(int)condition}" : "")} LIMIT {page * limit},{limit}");
+            var read = db.Query($"SELECT * FROM comments{(postid >= 0 ? $" WHERE artid={postid}" : "")}{(condition != null ? $" {(postid >= 0 ? " AND" : " WHERE")} visible{how}{(int)condition}" : "")} ORDER BY time DESC LIMIT {page * limit},{limit}");
 
             List<Comment> ret = new List<Comment>();
 
@@ -29,7 +29,7 @@ namespace ygBlog.Managment
                     Id = Convert.ToInt64(read["id"]),
                     Name = read["name"].ToString(),
                     Email = read["email"].ToString(),
-                    Content = CyBlogOldUnit.Comment.Decode(read["content"].ToString()),
+                    Content = SecurityUnit.EscapeHtmlArrow(CyBlogOldUnit.Comment.Decode(read["content"].ToString())),
                     PostID = Convert.ToInt64(read["artid"]),
                     Respond = GetCommentByID(Convert.ToInt64(read["resp"]), condition == CommentVisible.Visible),
                     Visible = (CommentVisible)Convert.ToInt32(read["visible"]),
@@ -53,7 +53,7 @@ namespace ygBlog.Managment
                     Id = Convert.ToInt64(read["id"]),
                     Name = read["name"].ToString(),
                     Email = read["email"].ToString(),
-                    Content = CyBlogOldUnit.Comment.Decode(read["content"].ToString()),
+                    Content = SecurityUnit.EscapeHtmlArrow(CyBlogOldUnit.Comment.Decode(read["content"].ToString())),
                     PostID = Convert.ToInt64(read["artid"]),
                     Respond = GetCommentByID(Convert.ToInt64(read["resp"])),
                     Visible = (CommentVisible)Convert.ToInt32(read["visible"]),
@@ -169,7 +169,9 @@ namespace ygBlog.Managment
         }
         public bool EmailInWhitelist(string email)
         {
-            return false;
+            long read = (long)db.QueryValue("SELECT COUNT(*) FROM comment_whitelist WHERE email=@email",
+                ("@email", email));
+            return read > 0;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ygBlog.Pages
                 if (read != null && (int)read.Status > 0)
                 {
                     ViewData["post"] = (PostData)read;
-                    pMan.AddPostVisit(read.Id);
+                    if(!HttpContext.User.Identity.IsAuthenticated) pMan.AddPostVisit(read.Id);
                 }
                 else NotFound();
             }
